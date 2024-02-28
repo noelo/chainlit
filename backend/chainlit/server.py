@@ -534,14 +534,8 @@ async def update_feedback(
     current_user: Annotated[Union[User, PersistedUser], Depends(get_current_user)],
 ):
     """Update the human feedback for a particular message."""
-    data_layer = get_data_layer()
-    if not data_layer:
-        raise HTTPException(status_code=500, detail="Data persistence is not enabled")
 
-    try:
-        feedback_id = await data_layer.upsert_feedback(feedback=update.feedback)
-    except Exception as e:
-        raise HTTPException(detail=str(e), status_code=500)
+    print(update.feedback)
 
     return JSONResponse(content={"success": True, "feedbackId": feedback_id})
 
